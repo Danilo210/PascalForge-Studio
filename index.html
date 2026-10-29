@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101725">
+<title>PascalForge Studio — IDE Visual Pascal</title>
+<link rel="stylesheet" href="vendor/codemirror.css"><link rel="stylesheet" href="vendor/show-hint.css"><link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+<div id="app">
+<header class="topbar">
+ <div class="brand" title="PascalForge Studio"><span class="brand-icon">⌘</span><span><b>PascalForge</b><small>STUDIO</small></span></div>
+ <div class="top-divider"></div><div class="project-heading"><span class="project-dot"></span><span id="project-title">Projeto1</span><span class="save-state" id="save-state">● Salvo</span></div>
+ <div class="top-spacer"></div>
+ <button class="btn quiet" id="new-project" title="Criar novo projeto"><span class="ic">＋</span> Novo</button>
+ <button class="btn quiet" id="import-project" title="Importar ZIP ou arquivo Pascal"><span class="ic">↥</span> Importar</button>
+ <button class="btn quiet" id="export-project" title="Exportar projeto Lazarus em ZIP"><span class="ic">↧</span> Exportar ZIP</button>
+ <span class="top-divider"></span>
+ <button class="btn run-btn" id="run-project" title="Prévia visual simulada (F9)">▶ <span>Executar</span></button>
+ <button class="btn primary" id="build-project" title="Preparar compilação nativa">⚙ <span>Compilar</span></button>
+ <button class="icon-btn" id="toggle-theme" title="Alternar tema claro/escuro">☾</button>
+</header>
+<div class="menubar"><div class="menugroup"><button data-menu="arquivo">Arquivo <span>⌄</span></button><button data-menu="editar">Editar <span>⌄</span></button><button data-menu="projeto">Projeto <span>⌄</span></button><button data-menu="exibir">Exibir <span>⌄</span></button><button data-menu="ajuda">Ajuda <span>⌄</span></button></div><div class="menu-right"><span class="online-dot"></span> IDE local no navegador <span class="sep">|</span> Lazarus / Free Pascal</div></div>
+<div class="layout">
+<aside class="left-pane">
+ <div class="pane-title"><span class="pane-kicker">EXPLORADOR</span><span class="pane-actions"><button class="mini" id="add-form" title="Novo formulário">▣+</button><button class="mini" id="add-unit" title="Nova unit Pascal">⊕</button><button class="mini" id="add-file" title="Novo arquivo">▤</button><button class="mini" id="add-folder" title="Nova pasta">📁</button></span></div>
+ <div class="project-head" id="tree-root"><span class="chevron">▾</span><span class="folder-glyph">▤</span><strong id="tree-project-title">Projeto1</strong><span class="tag-bubble">LCL</span></div>
+ <div id="file-tree" class="file-tree"></div>
+ <div class="left-separator"></div>
+ <div class="pane-title palette-heading"><span class="pane-kicker">PALETA DE COMPONENTES</span><span class="pill" id="palette-count">16</span></div>
+ <div class="component-search"><span>⌕</span><input id="palette-filter" placeholder="Buscar componente..." autocomplete="off"></div>
+ <div class="category-tabs" id="category-tabs"><button class="selected" data-category="todos">Todos</button><button data-category="standard">Standard</button><button data-category="additional">Additional</button></div>
+ <div id="component-palette" class="component-palette"></div>
+ <div class="palette-tip"><span>✧</span> Clique ou arraste um componente para o formulário.</div>
+</aside>
+<main class="main-pane">
+ <div class="tabs-bar"><div id="file-tabs" class="file-tabs"></div><button class="add-tab" id="quick-new-unit" title="Nova unit">+</button></div>
+ <div class="editor-toolbar"><div class="segmented" id="editor-modes"><button data-mode="design" class="active">▣ Design</button><button data-mode="code">⌘ Código</button><button data-mode="split">◫ Dividir</button></div><div class="tb-space"></div><div class="view-extras" id="form-size-info">TForm1 • 680 × 420</div><span class="vdiv"></span><button class="tool-button" id="toggle-grid" title="Grade de alinhamento">▦ <span>Grade</span></button><button class="tool-button" id="toggle-snap" title="Ajustar à grade">⊞ <span>Snap</span></button><button class="tool-button" id="fit-form" title="Centralizar formulário">⤢</button></div>
+ <div class="workspace" id="workspace"><div class="design-area" id="design-area"><div class="canvas-viewport" id="canvas-viewport"><div class="canvas-watermark">DESIGNER DE FORMULÁRIOS <span>•</span> LCL / VCL</div><div class="form-window" id="form-window"><div class="form-titlebar" id="form-titlebar"><div class="win-icon">◈</div><span class="window-name" id="window-name">Form1</span><div class="win-tools"><i>─</i><i>▢</i><i>×</i></div></div><div class="form-client" id="form-client"></div></div><div class="canvas-hint" id="canvas-hint">Arraste componentes • Clique para selecionar • Delete para remover • Setas para mover</div></div></div><div class="code-area" id="code-area"><div class="code-editor-head"><div class="code-file-name" id="code-filename">Unit1.pas</div><span class="lang-label">OBJECT PASCAL</span></div><div id="code-editor"></div></div></div>
+ <section class="bottom-pane" id="bottom-pane"><div class="bottom-head"><button class="bottom-tab selected" data-bottom="output">⌘ Saída</button><button class="bottom-tab" data-bottom="problems">⚠ Problemas <span id="error-count">0</span></button><button class="bottom-tab" data-bottom="help">◈ Atalhos</button><span class="bottom-space"></span><button class="mini" id="clear-log" title="Limpar saída">⊘</button><button class="mini" id="toggle-output" title="Recolher/expandir">⌄</button></div><div class="bottom-body" id="bottom-body"><div id="output-panel" class="log-list"></div><div id="problems-panel" hidden class="problems-panel"></div><div id="help-panel" hidden class="help-panel">Ctrl+S Salvar · Ctrl+Shift+S Exportar · Ctrl+Z Desfazer (editor) · F9 Executar simulação · Ctrl+N Nova unit · Delete Excluir componente · Setas Mover · Shift+setas Mover 10px · Duplo clique Componente → OnClick</div></div></section>
+</main>
+<aside class="right-pane"><div class="pane-title"><span class="pane-kicker">OBJECT INSPECTOR</span><span class="inspector-icon">⚙</span></div><div class="selected-object"><div class="object-cube">◈</div><div><strong id="selected-name">Form1</strong><small id="selected-type">TForm</small></div><button class="mini" id="select-form" title="Selecionar formulário">↗</button></div><div class="inspector-tabs"><button class="active" data-inspector="properties">Propriedades</button><button data-inspector="events">Eventos</button></div><div id="inspector-body" class="inspector-body"></div><div class="inspector-footer"><span class="status-pip"></span> <span id="inspector-footer">Selecione um controle para editar</span></div><div class="outline-title">ESTRUTURA DO FORMULÁRIO</div><div id="outline-tree" class="outline-tree"></div></aside>
+</div>
+<footer class="statusbar"><span class="status-ready">● Pronto</span><span id="status-message">Bem-vindo ao PascalForge Studio</span><span class="status-flex"></span><span id="status-position">Ln 1, Col 1</span><span class="status-sep"></span><span>Object Pascal</span><span class="status-sep"></span><span id="status-controls">0 componentes</span><span class="status-sep"></span><span>UTF-8</span></footer>
+</div>
+<div class="menu-popover" id="menu-popover" hidden></div><div class="toast-wrap" id="toast-wrap"></div>
+<div class="modal-overlay" id="modal-overlay" hidden><div class="modal" id="modal"><button class="modal-close" id="modal-close">×</button><div id="modal-content"></div></div></div>
+<div class="runtime-overlay" id="runtime-overlay" hidden><div class="runtime-bar"><strong>▶ Prévia interativa do formulário</strong><span>Simulação de controles e eventos básicos — não é compilação Pascal</span><button id="runtime-close" class="btn quiet">✕ Fechar</button></div><div class="runtime-stage"><div class="runtime-form" id="runtime-form"></div></div></div>
+<input type="file" id="import-input" multiple accept=".zip,.pas,.pp,.lfm,.lpr,.lpi,.txt,.png,.jpg,.jpeg,.gif,.svg,.webp,.ico" hidden><input type="file" id="asset-input" multiple accept="image/*" hidden><input type="file" id="folder-input" webkitdirectory directory multiple hidden>
+<script src="vendor/codemirror.js"></script><script src="vendor/matchbrackets.js"></script><script src="vendor/comment.js"></script><script src="vendor/show-hint.js"></script><script src="vendor/searchcursor.js"></script><script src="vendor/jszip.min.js"></script><script src="pascal-mode.js"></script><script src="app.js"></script>
+</body></html>
